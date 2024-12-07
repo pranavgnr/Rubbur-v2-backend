@@ -24,7 +24,7 @@ exports.createBook = async (req,res) => {
                     {$push: {arrayOfIds: newBook.id}},
                     {new: true}
                 )
-                res.status(201).json(newBook, mainArrayAddition);
+                res.status(201).json(newBook);
             } catch (error) {
                 console.log(error);
             }
