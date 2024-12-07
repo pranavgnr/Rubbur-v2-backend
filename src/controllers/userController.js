@@ -18,9 +18,9 @@ exports.createBook = async (req,res) => {
     try {
         if(parentId == ''){
             const newBook = await book.save();
-
+            let mainArrayAddition = []
             try {
-                const mainArrayAddition = await mainBooksArray.findByIdAndUpdate(
+                mainArrayAddition = await mainBooksArray.findByIdAndUpdate(
                     '6736e490ba423c04acf748d0',
                     {$push: {arrayOfIds: newBook.id}},
                     {new: true}
@@ -28,7 +28,7 @@ exports.createBook = async (req,res) => {
             } catch (error) {
                 console.log(error);
             }
-            res.status(201).json(newBook,mainArrayAddition);
+            res.status(201).json(newBook);
         } else {
             const newBook = await book.save();
             console.log(newBook);
@@ -116,7 +116,7 @@ exports.deleteBook = async (req,res) => {
                 { $pull: { ChildrenId: idToDelete}}
             );
         } catch (error) {
-            res.status(400).send(error);
+            console.log("error is: "+error);
         }
     }
 
@@ -128,7 +128,7 @@ exports.deleteBook = async (req,res) => {
             console.log(error);
         }
     } catch(error) {
-        res.status(400).send(error);
+        console.log("error is: "+error);
     }
 
     let childrenIdData = data.ChildrenId;
@@ -138,7 +138,7 @@ exports.deleteBook = async (req,res) => {
     } catch (error) {
         console.log(error);
     }
-    
+    res.status(200).send({ "status": "success" });
 }
 
 exports.updateBook = async (req, res) => {
