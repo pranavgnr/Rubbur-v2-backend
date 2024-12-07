@@ -18,17 +18,16 @@ exports.createBook = async (req,res) => {
     try {
         if(parentId == ''){
             const newBook = await book.save();
-            let mainArrayAddition = []
             try {
-                mainArrayAddition = await mainBooksArray.findByIdAndUpdate(
+                let mainArrayAddition = await mainBooksArray.findByIdAndUpdate(
                     '6736e490ba423c04acf748d0',
                     {$push: {arrayOfIds: newBook.id}},
                     {new: true}
                 )
+                res.status(201).json(newBook, mainArrayAddition);
             } catch (error) {
                 console.log(error);
             }
-            res.status(201).json(newBook);
         } else {
             const newBook = await book.save();
             console.log(newBook);
